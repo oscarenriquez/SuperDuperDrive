@@ -9,6 +9,8 @@ import com.udacity.jwdnd.course1.cloudstorage.service.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.service.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.service.NoteService;
 import com.udacity.jwdnd.course1.cloudstorage.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -25,11 +27,12 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/home")
 public class HomeController {
+    private final static Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-    private UserService userService;
-    private FileService fileService;
-    private NoteService noteService;
-    private CredentialService credentialService;
+    private final UserService userService;
+    private final FileService fileService;
+    private final NoteService noteService;
+    private final CredentialService credentialService;
 
     public HomeController(UserService userService, FileService fileService, NoteService noteService, CredentialService credentialService) {
         this.userService = userService;
@@ -57,66 +60,109 @@ public class HomeController {
         } catch (IOException e) {
             model.addAttribute("success", false);
             model.addAttribute("errorMessage", e.getMessage());
+            logger.error(e.getMessage());
+            e.printStackTrace();
         }
         return "result";
+
     }
 
     @GetMapping("/downloadFile/{fileId}")
-    public void downloadFile(@PathVariable("fileId") Integer fileId, HttpServletResponse response) throws IOException {
-        final File file = fileService.getFile(fileId);
-        response.setContentType(file.getContentType());
-        response.setHeader("Content-Disposition", "attachment; filename=\""+file.getFileName()+"\"");
-        ServletOutputStream out = response.getOutputStream();
-        out.write(file.getFileData());
-        out.flush();
+    public void downloadFile(@PathVariable("fileId") Integer fileId, HttpServletResponse response) {
+        try {
+            final File file = fileService.getFile(fileId);
+            response.setContentType(file.getContentType());
+            response.setHeader("Content-Disposition", "attachment; filename=\""+file.getFileName()+"\"");
+            ServletOutputStream out = response.getOutputStream();
+            out.write(file.getFileData());
+            out.flush();
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @GetMapping("/deleteFile/{fileId}")
     public String deleteFile(@PathVariable("fileId") Integer fileId, Model model) {
-        boolean success = fileService.deleteFile(fileId);
-        model.addAttribute("success", success);
+        try {
+            boolean success = fileService.deleteFile(fileId);
+            model.addAttribute("success", success);
+        } catch (Exception e) {
+            model.addAttribute("success", false);
+            model.addAttribute("errorMessage", e.getMessage());
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
         return "result";
     }
 
     @PostMapping("/addNote")
     public String addNote(Authentication authentication, Model model, Note note) {
-        final User user = userService.getUser(authentication.getName());
-        note.setUser(user);
-        boolean success = true;
-        if (note.getNoteId() != null) {
-            success = noteService.updateNote(note);
-        } else {
-            noteService.createNote(note);
+        try {
+            final User user = userService.getUser(authentication.getName());
+            note.setUser(user);
+            boolean success = true;
+            if (note.getNoteId() != null) {
+                success = noteService.updateNote(note);
+            } else {
+                noteService.createNote(note);
+            }
+            model.addAttribute("success", success);
+        } catch (Exception e) {
+            model.addAttribute("success", false);
+            model.addAttribute("errorMessage", e.getMessage());
+            logger.error(e.getMessage());
+            e.printStackTrace();
         }
-        model.addAttribute("success", success);
         return "result";
     }
 
     @GetMapping("/deleteNote/{noteId}")
     public String deleteNote(@PathVariable("noteId") Integer noteId, Model model) {
-        boolean success = noteService.deleteNote(noteId);
-        model.addAttribute("success", success);
+        try {
+            boolean success = noteService.deleteNote(noteId);
+            model.addAttribute("success", success);
+        } catch (Exception e) {
+            model.addAttribute("success", false);
+            model.addAttribute("errorMessage", e.getMessage());
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
         return "result";
     }
 
     @PostMapping("/addCredential")
     public String addCredential(Authentication authentication, Model model, Credential credential) {
-        final User user = userService.getUser(authentication.getName());
-        credential.setUser(user);
-        boolean success = true;
-        if(credential.getCredentialId() != null) {
-            success = credentialService.updateCredential(credential);
-        } else {
-            credentialService.createCredential(credential);
+        try {
+            final User user = userService.getUser(authentication.getName());
+            credential.setUser(user);
+            boolean success = true;
+            if(credential.getCredentialId() != null) {
+                success = credentialService.updateCredential(credential);
+            } else {
+                credentialService.createCredential(credential);
+            }
+            model.addAttribute("success", success);
+        } catch (Exception e) {
+            model.addAttribute("success", false);
+            model.addAttribute("errorMessage", e.getMessage());
+            logger.error(e.getMessage());
+            e.printStackTrace();
         }
-        model.addAttribute("success", success);
         return "result";
     }
 
     @GetMapping("/deleteCredential/{credentialId}")
     public String deleteCredential(@PathVariable("credentialId") Integer credentialId, Model model) {
-        boolean success = credentialService.deleteCredential(credentialId);
-        model.addAttribute("success", success);
+        try {
+            boolean success = credentialService.deleteCredential(credentialId);
+            model.addAttribute("success", success);
+        } catch (Exception e) {
+            model.addAttribute("success", false);
+            model.addAttribute("errorMessage", e.getMessage());
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
         return "result";
     }
 
@@ -126,7 +172,6 @@ public class HomeController {
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-
         return "login";
     }
 }
