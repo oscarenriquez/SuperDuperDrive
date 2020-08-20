@@ -24,4 +24,11 @@ public class LoginPage {
         this.passwordField.sendKeys(password);
         this.submitButton.click();
     }
+
+    public String getUserNameInputId() {
+        if (this.usernameField != null) {
+            return this.usernameField.getAttribute("id");
+        }
+        return null;
+    }
 }

@@ -18,10 +18,20 @@ public class UserService {
         this.hashService = hashService;
     }
 
+    /**
+     * Check username
+     * @param username
+     * @return
+     */
     public boolean isUsernameAvailable(String username) {
         return userMapper.getUser(username) == null;
     }
 
+    /**
+     * Create new User
+     * @param user
+     * @return
+     */
     public int createUser(User user) {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
@@ -31,6 +41,11 @@ public class UserService {
         return userMapper.insert(new User(null, user.getUsername(), encodedSalt, hashedPassword, user.getFirstName(), user.getLastName()));
     }
 
+    /**
+     * Get User by username
+     * @param username
+     * @return
+     */
     public User getUser(String username) {
         return userMapper.getUser(username);
     }

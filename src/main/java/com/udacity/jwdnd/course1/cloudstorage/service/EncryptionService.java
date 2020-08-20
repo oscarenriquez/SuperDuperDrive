@@ -15,6 +15,12 @@ import java.util.Base64;
 public class EncryptionService {
     private Logger logger = LoggerFactory.getLogger(EncryptionService.class);
 
+    /**
+     * Encrypt operation
+     * @param data
+     * @param key
+     * @return
+     */
     public String encryptValue(String data, String key) {
         byte[] encryptedValue = null;
 
@@ -31,6 +37,12 @@ public class EncryptionService {
         return Base64.getEncoder().encodeToString(encryptedValue);
     }
 
+    /**
+     * Decrypt operation
+     * @param data
+     * @param key
+     * @return
+     */
     public String decryptValue(String data, String key) {
         byte[] decryptedValue = null;
 

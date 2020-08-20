@@ -20,6 +20,12 @@ public class AuthenticationService implements AuthenticationProvider {
         this.hashService = hashService;
     }
 
+    /**
+     * Authenticate users
+     * @param authentication
+     * @return
+     * @throws AuthenticationException
+     */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();

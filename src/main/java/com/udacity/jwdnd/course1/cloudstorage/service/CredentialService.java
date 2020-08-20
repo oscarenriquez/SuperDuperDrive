@@ -18,23 +18,46 @@ public class CredentialService {
         this.credentialMapper = credentialMapper;
     }
 
+    /**
+     * Obtain all the credentials
+     * @return
+     */
     public List<Credential> getCredentials() {
         logger.info("[getCredentials]: getting list of credentials");
         return this.credentialMapper.getCredentials();
     }
 
+    /**
+     * get Credential by Id
+     * @param credentialId
+     * @return
+     */
     public Credential getCredential(Integer credentialId) {
         return this.credentialMapper.getCredential(credentialId);
     }
 
+    /**
+     * Create a new credential in DB
+     * @param credential
+     */
     public void createCredential(Credential credential) {
         this.credentialMapper.saveCredential(credential);
     }
 
+    /**
+     * Update Credential
+     * @param credential
+     * @return
+     */
     public boolean updateCredential(Credential credential) {
         return this.credentialMapper.updateCredential(credential);
     }
 
+    /**
+     * Delete credential by Id
+     * @param credentialId
+     * @return
+     */
     public boolean deleteCredential(Integer credentialId) {
         return this.credentialMapper.deleteCredential(credentialId);
     }
