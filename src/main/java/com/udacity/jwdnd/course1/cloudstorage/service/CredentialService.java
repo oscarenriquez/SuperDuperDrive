@@ -22,9 +22,9 @@ public class CredentialService {
      * Obtain all the credentials
      * @return
      */
-    public List<Credential> getCredentials() {
+    public List<Credential> getCredentials(Integer userId) {
         logger.info("[getCredentials]: getting list of credentials");
-        return this.credentialMapper.getCredentials();
+        return this.credentialMapper.getCredentials(userId);
     }
 
     /**
@@ -35,6 +35,17 @@ public class CredentialService {
     public Credential getCredential(Integer credentialId) {
         return this.credentialMapper.getCredential(credentialId);
     }
+
+    /**
+     * get Credential by User Id and Username
+     * @param userId
+     * @param username
+     * @return
+     */
+    public Credential getCredential(Integer userId, String username) {
+        return this.credentialMapper.getCredentialByUsername(userId, username);
+    }
+
 
     /**
      * Create a new credential in DB

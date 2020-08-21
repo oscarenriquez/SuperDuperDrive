@@ -19,16 +19,16 @@ public class NoteService {
 
     /**
      * obtain list of notes
-     * @return
+     * @return List of notes
      */
-    public List<Note> getNotes() {
-        return this.noteMapper.getNotes();
+    public List<Note> getNotes(Integer userId) {
+        return this.noteMapper.getNotes(userId);
     }
 
     /**
      * get Note by Id
-     * @param noteId
-     * @return
+     * @param noteId Integer
+     * @return note
      */
     public Note getNote(Integer noteId) {
         return this.noteMapper.getNote(noteId);
@@ -36,7 +36,7 @@ public class NoteService {
 
     /**
      * create new Note
-     * @param note
+     * @param note model
      */
     public void createNote(Note note) {
         this.noteMapper.saveNote(note);
@@ -44,8 +44,8 @@ public class NoteService {
 
     /**
      * Update new Note
-     * @param note
-     * @return
+     * @param note model
+     * @return boolean
      */
     public boolean updateNote(Note note) {
         return this.noteMapper.updateNote(note);
@@ -53,8 +53,8 @@ public class NoteService {
 
     /**
      * Delete note by Id
-     * @param noteId
-     * @return
+     * @param noteId Integer
+     * @return boolean
      */
     public boolean deleteNote(Integer noteId) {
         return this.noteMapper.deleteNote(noteId);

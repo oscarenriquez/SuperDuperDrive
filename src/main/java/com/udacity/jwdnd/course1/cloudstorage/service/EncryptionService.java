@@ -5,10 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.*;
+import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.KeySpec;
 import java.util.Base64;
 
 @Service
@@ -57,5 +59,13 @@ public class EncryptionService {
         }
 
         return new String(decryptedValue);
+    }
+
+    public String encryptValue(String password) {
+        return encryptValue(password, "defaultKeyToEncr");
+    }
+
+    public String decryptValue(String data) {
+        return decryptValue(data, "defaultKeyToEncr");
     }
 }

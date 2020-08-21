@@ -20,25 +20,35 @@ public class FileService {
 
     /**
      * obtain all files
-     * @return
+     * @return List of files
      */
-    public List<File> getFiles() {
+    public List<File> getFiles(Integer userId) {
         logger.info("[getFiles]: getting list of files");
-        return this.fileMapper.getFiles();
+        return this.fileMapper.getFiles(userId);
     }
 
     /**
      * Obtain File by Id
-     * @param fileId
-     * @return
+     * @param fileId Integer
+     * @return File
      */
     public File getFile(Integer fileId) {
         return this.fileMapper.getFile(fileId);
     }
 
     /**
+     * Obtain File by User Id and File Name
+     * @param userId Integer
+     * @param fileName String
+     * @return File
+     */
+    public File getFile(Integer userId, String fileName) {
+        return this.fileMapper.getFileByName(userId, fileName);
+    }
+
+    /**
      * Create new File
-     * @param file
+     * @param file model
      */
     public void createFile(File file) {
         this.fileMapper.saveFile(file);
@@ -46,8 +56,8 @@ public class FileService {
 
     /**
      * Update File
-     * @param file
-     * @return
+     * @param file model
+     * @return boolean
      */
     public boolean updateFile(File file) {
         return this.fileMapper.updateFile(file);
@@ -55,8 +65,8 @@ public class FileService {
 
     /**
      * Delete file by Id
-     * @param fileId
-     * @return
+     * @param fileId Integer
+     * @return boolean
      */
     public boolean deleteFile(Integer fileId) {
         return this.fileMapper.deleteFile(fileId);

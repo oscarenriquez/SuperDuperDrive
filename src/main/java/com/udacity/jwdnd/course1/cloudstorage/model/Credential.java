@@ -1,12 +1,18 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
+import javax.validation.constraints.NotNull;
+
 public class Credential {
 
     private Integer credentialId;
+    @NotNull
     private String url;
+    @NotNull
     private String username;
     private String key;
+    @NotNull
     private String password;
+    private String visiblePassword;
     private User user;
 
     public Credential() {
@@ -67,5 +73,13 @@ public class Credential {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getVisiblePassword() {
+        return visiblePassword;
+    }
+
+    public void setVisiblePassword(String visiblePassword) {
+        this.visiblePassword = visiblePassword;
     }
 }

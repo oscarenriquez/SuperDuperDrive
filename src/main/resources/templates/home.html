@@ -25,14 +25,18 @@
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
-                        <form action="#" enctype="multipart/form-data" method="POST" th:action="@{/home/uploadFile}">
+                        <div th:if="${error}" class="alert alert-danger fill-parent py-2 my-1">
+                            <h6 class=" text-danger mb-4">Something went wrong!</h6>
+                            <span  th:text="${errorMessage}"></span>
+                        </div>
+                        <form action="#" th:object="${fileForm}" enctype="multipart/form-data" method="POST" th:action="@{/home/uploadFile}">
                             <div class="container">
                                 <div class="row" style="margin: 1em;">
                                     <div class="col-sm-2">
                                         <label for="fileUpload">Upload a New File:</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="file" class="form-control-file" id="fileUpload" name="fileUpload">
+                                        <input type="file" class="form-control-file" id="fileUpload" name="fileUpload" th:field="*{fileUpload}" required>
                                     </div>
                                     <div class="col-sm-4">
                                         <button type="submit" class="btn btn-dark">Upload</button>
@@ -143,7 +147,7 @@
                                         <button th:credentialId="${credential.credentialId}"
                                                 th:url="${credential.url}"
                                                 th:username="${credential.username}"
-                                                th:password="${credential.password}"
+                                                th:password="${credential.visiblePassword}"
                                                 onclick="showCredentialModal(this.getAttribute('credentialId'), this.getAttribute('url'), this.getAttribute('username'), this.getAttribute('password'))"
                                                 type="button" class="btn btn-success" >Edit</button>
                                         <a class="btn btn-danger" th:href="${'/home/deleteCredential/' + credential.credentialId}">Delete</a>

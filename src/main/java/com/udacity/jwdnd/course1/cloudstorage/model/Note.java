@@ -1,9 +1,13 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
+import javax.validation.constraints.NotNull;
+
 public class Note {
 
     private Integer noteId;
+    @NotNull
     private String noteTitle;
+    @NotNull
     private String noteDescription;
     private User user;
 
